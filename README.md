@@ -1,21 +1,49 @@
 # SNPmineR
-An R package to identify DNA variants across species based on positional orthology to human SNP input
 
-# SNPmineR
+SNPmineR is an R package scaffold for mapping human SNP rsIDs to orthologous nonsynonymous variants in target species.
 
-**SNPmineR** is an R package under development that allows users to search for orthologous nonsynonymous mitochondrial SNPs across species using a known human mtDNA variant as input. This tool supports translational model selection and evolutionary analysis of mitonuclear interactions.
+## One-liner workflow
 
-## Key Features
-- Cross-species search for orthologous mtDNA variants
-- Prediction of amino acid substitutions at disease-relevant loci
-- Support for vertebrate mitogenomes
-- Integration with Biostrings and msa packages
+Use `snp_map_ns()` for a tidyverse-style pipeline (vector-in, tibble-out):
 
-## Development Status
-This package is under active development. Current goals include:
-- Core sequence alignment and variant mapping functionality
-- Orthology-based filtering
-- SAAP (Structural Analysis of Amino Acid Properties) support
+```r
+library(SNPmineR)
 
-## Citation
-If you use SNPmineR in your work, please cite the relevant preprint or publication (in preparation).
+results <- snp_map_ns(
+  rsids = c("rs1", "rs2"),
+  targets = c("mmusculus"),
+  variant_db = variant_db,
+  ortholog_db = ortholog_db,
+  ref_db_targets = ref_db_targets
+)
+```
+
+## Constrain searches with targets or taxa
+
+SNPmineR enforces explicit taxonomic scope for ortholog/refdb access. You must supply either:
+
+- `targets = c("species_code", ...)`, or
+- a `TaxonSet`, e.g. clade bundle style:
+
+```r
+mammalia <- taxa_set(list(
+  name = "Mammalia",
+  taxids = c(40674L),
+  species_codes = c("mmusculus", "rnorvegicus"),
+  source = "user"
+))
+
+results <- snp_map_ns(
+  rsids = c("rs1"),
+  taxa = mammalia,
+  variant_db = variant_db,
+  ortholog_db = ortholog_db,
+  ref_db_targets = ref_db_targets
+)
+```
+
+If neither `targets` nor `taxa` is provided, SNPmineR errors by design to avoid implicit global taxonomy scans.
+
+## Development note
+
+NEXT STEPS: implement alignment-based coordinate mapping to support high-confidence residue-level transfer between human and target transcripts/proteins.

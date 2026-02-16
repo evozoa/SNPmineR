@@ -1,1 +1,24 @@
-
+Package: SNPmineR
+Title: Tidyverse-Native SNP Orthology Mapping Scaffolding
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "SNPmineR",
+           family = "Contributors",
+           role = c("aut", "cre"),
+           email = "devnull@example.org")
+Description: Provides a tidyverse-friendly API scaffold to map human SNP rsIDs
+    to orthologous nonsynonymous variants in target species with explicit
+    taxonomic scoping controls.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: 
+    R (>= 4.1.0)
+Imports:
+    dplyr,
+    rlang,
+    tibble
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
